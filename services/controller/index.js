@@ -43,6 +43,26 @@ app.get('/shipping/:cep', (req, res, next) => {
 });
 
 /**
+ * Consulta o produto pelo ID
+ */
+app.get('/product/:id', (req, res, next) => {
+    // Chama método do microsserviço.
+    inventory.searchProductById({id: req.params.id}, (err, product) =>{
+        //Se ocorrer algum erro de comunicação
+        // com o mircrosserviço, retorna para o navegador.
+        if(err){
+            console.error(err);
+        } else{
+            // Caso contrário, retorna o resultado do
+            // microsserviço (um arquivo JSON) com os dados
+            // do produto pesquisado
+            res.json(product);
+        }
+    });
+});
+
+
+/**
  * Inicia o router
  */
 app.listen(3000, () => {
